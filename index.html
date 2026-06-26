@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>우리들의 운동 달력 💪</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Background Decoration -->
+  <div class="bg-decor bg-decor-1"></div>
+  <div class="bg-decor bg-decor-2"></div>
+
+  <!-- PASSWORD GATE SCREEN -->
+  <div id="password-gate" class="gate-container">
+    <div class="glass-card gate-card">
+      <div class="gate-header">
+        <div class="icon-circle">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+        <h1>우리들의 공간</h1>
+        <p>암호를 입력하여 입장하세요</p>
+      </div>
+      <div class="gate-body">
+        <div class="pin-display">
+          <span class="pin-dot"></span>
+          <span class="pin-dot"></span>
+          <span class="pin-dot"></span>
+          <span class="pin-dot"></span>
+        </div>
+        <div class="keypad">
+          <button class="key-btn" data-val="1">1</button>
+          <button class="key-btn" data-val="2">2</button>
+          <button class="key-btn" data-val="3">3</button>
+          <button class="key-btn" data-val="4">4</button>
+          <button class="key-btn" data-val="5">5</button>
+          <button class="key-btn" data-val="6">6</button>
+          <button class="key-btn" data-val="7">7</button>
+          <button class="key-btn" data-val="8">8</button>
+          <button class="key-btn" data-val="9">9</button>
+          <button class="key-btn reset-btn" id="key-clear"><i class="fa-solid fa-rotate-left"></i></button>
+          <button class="key-btn" data-val="0">0</button>
+          <button class="key-btn delete-btn" id="key-delete"><i class="fa-solid fa-delete-left"></i></button>
+        </div>
+        <p id="error-msg" class="error-text">잘못된 암호입니다. 다시 시도해 주세요.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP CONTAINER -->
+  <div id="app-container" class="app-container hidden">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <span class="emoji">🔥</span>
+        <h1>오운완 체크!</h1>
+      </div>
+      <button id="btn-logout" class="icon-btn-text" title="로그아웃">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>잠금</span>
+      </button>
+    </header>
+
+    <!-- Today's Quick Check-in Card -->
+    <section class="today-section">
+      <div class="glass-card checkin-card">
+        <div class="card-header">
+          <h2>오늘 운동했나요? <span class="today-date-text" id="today-date">6월 26일</span></h2>
+        </div>
+        <div class="checkin-actions">
+          <!-- Me (Galaxy S22 Ultra User) -->
+          <div class="user-check-col">
+            <div class="avatar male">
+              <i class="fa-solid fa-user-ninja"></i>
+            </div>
+            <span class="user-label">나</span>
+            <button id="chk-me" class="btn-toggle-workout">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>오늘 완료!</span>
+            </button>
+          </div>
+
+          <!-- Girlfriend (iPhone SE User) -->
+          <div class="user-check-col">
+            <div class="avatar female">
+              <i class="fa-solid fa-user-astronaut"></i>
+            </div>
+            <span class="user-label">여자친구</span>
+            <button id="chk-girlfriend" class="btn-toggle-workout">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>오늘 완료!</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Calendar Section -->
+    <section class="calendar-section">
+      <div class="glass-card calendar-card">
+        <!-- Calendar Control Header -->
+        <div class="calendar-header">
+          <button id="prev-month" class="nav-btn"><i class="fa-solid fa-chevron-left"></i></button>
+          <h2 id="current-month-year">2026년 6월</h2>
+          <button id="next-month" class="nav-btn"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+
+        <!-- Weekdays -->
+        <div class="weekdays-grid">
+          <div class="weekday sun">일</div>
+          <div class="weekday">월</div>
+          <div class="weekday">화</div>
+          <div class="weekday">수</div>
+          <div class="weekday">목</div>
+          <div class="weekday">금</div>
+          <div class="weekday sat">토</div>
+        </div>
+
+        <!-- Calendar Days -->
+        <div id="calendar-days" class="days-grid">
+          <!-- Dynamically populated via Javascript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Monthly Progress Stats Card -->
+    <section class="stats-section">
+      <div class="glass-card stats-card">
+        <h3>이번 달 운동 기록</h3>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <span class="stat-title">나 (Me)</span>
+            <div class="stat-count">
+              <span id="count-me" class="count-num">0</span><span class="count-unit">일</span>
+            </div>
+            <div class="progress-bar-container">
+              <div id="bar-me" class="progress-bar male-bar" style="width: 0%"></div>
+            </div>
+          </div>
+          <div class="stat-box">
+            <span class="stat-title">여자친구</span>
+            <div class="stat-count">
+              <span id="count-girlfriend" class="count-num">0</span><span class="count-unit">일</span>
+            </div>
+            <div class="progress-bar-container">
+              <div id="bar-girlfriend" class="progress-bar female-bar" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="cheer-message" id="cheer-msg">
+          함께 건강해지는 중! 💕
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- DAY DETAIL MODAL -->
+  <div id="day-modal" class="modal-overlay hidden">
+    <div class="glass-card modal-content">
+      <div class="modal-header">
+        <h3 id="modal-date-title">2026년 6월 26일</h3>
+        <button id="modal-close" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">이 날짜의 운동 기록을 수정합니다.</p>
+        
+        <div class="modal-toggle-row">
+          <div class="modal-user-info">
+            <span class="avatar male mini"><i class="fa-solid fa-user-ninja"></i></span>
+            <span>나의 운동</span>
+          </div>
+          <label class="switch-container">
+            <input type="checkbox" id="modal-chk-me">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+
+        <div class="modal-toggle-row">
+          <div class="modal-user-info">
+            <span class="avatar female mini"><i class="fa-solid fa-user-astronaut"></i></span>
+            <span>여자친구의 운동</span>
+          </div>
+          <label class="switch-container">
+            <input type="checkbox" id="modal-chk-girlfriend">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-save-modal" class="btn-primary">저장하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="spinner"></div>
+    <p>데이터 불러오는 중...</p>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
