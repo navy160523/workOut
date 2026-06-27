@@ -60,38 +60,10 @@ body.light-theme .modal-overlay {
   background: rgba(15, 23, 42, 0.4);
 }
 
-/* Floating Theme Button */
-.theme-toggle-floating {
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  z-index: 200;
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--glass-border);
+/* Header Actions */
+.header-actions {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-primary);
-  font-size: 16px;
-  transition: all var(--transition-fast);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-body.light-theme .theme-toggle-floating {
-  background: rgba(15, 23, 42, 0.05);
-}
-
-.theme-toggle-floating:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: var(--glass-highlight);
-}
-
-body.light-theme .theme-toggle-floating:hover {
-  background: rgba(0, 0, 0, 0.06);
+  gap: 8px;
 }
 
 /* Reset & Base styles */

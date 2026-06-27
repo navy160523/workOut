@@ -13,11 +13,6 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Floating Theme Toggle Button -->
-  <button id="btn-theme" class="theme-toggle-floating" title="테마 변경">
-    <i class="fa-solid fa-moon"></i>
-  </button>
-
   <!-- Background Decoration -->
   <div class="bg-decor bg-decor-1"></div>
   <div class="bg-decor bg-decor-2"></div>
@@ -66,10 +61,16 @@
         <span class="emoji">🔥</span>
         <h1>오운완 체크!</h1>
       </div>
-      <button id="btn-logout" class="icon-btn-text" title="로그아웃">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        <span>잠금</span>
-      </button>
+      <div class="header-actions">
+        <button id="btn-theme" class="icon-btn-text" title="테마 변경">
+          <i class="fa-solid fa-moon"></i>
+          <span>모드</span>
+        </button>
+        <button id="btn-logout" class="icon-btn-text" title="로그아웃">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          <span>잠금</span>
+        </button>
+      </div>
     </header>
 
     <!-- Today's Quick Check-in Card -->
