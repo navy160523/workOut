@@ -76,17 +76,21 @@ async function saveDayData(dateStr, meDone, girlfriendDone) {
     updatedAt: new Date().toISOString()
   };
 
+  let firestoreSuccess = false;
   if (isFirebaseActive) {
     try {
       await setDoc(doc(db, "workout_logs", dateStr), logData);
-      return;
+      firestoreSuccess = true;
+      console.log("Data saved to Firestore successfully!");
     } catch (e) {
-      console.error("Error writing Firestore document: ", e);
+      console.error("Error writing Firestore document, falling back to LocalStorage:", e);
     }
   }
   
-  // LocalStorage Fallback
-  localStorage.setItem(`workout_${dateStr}`, JSON.stringify(logData));
+  // Write to LocalStorage if Firestore is inactive or write failed
+  if (!firestoreSuccess) {
+    localStorage.setItem(`workout_${dateStr}`, JSON.stringify(logData));
+  }
 }
 
 // State Variables
