@@ -448,9 +448,9 @@ function updateStats() {
     if (Math.abs(meCount - girlfriendCount) <= 2) {
       cheerMsg.innerText = "서로 응원하며 페이스가 아주 잘 맞아요! 💑🔥";
     } else if (meCount > girlfriendCount) {
-      cheerMsg.innerText = "나의 페이스에 맞추어 여자친구도 홧팅! 🏋️‍♂️✨";
+      cheerMsg.innerText = "YJ의 페이스에 맞추어 SH도 홧팅! 🏋️‍♂️✨";
     } else {
-      cheerMsg.innerText = "여자친구의 페이스에 맞추어 나도 홧팅! 🏋️‍♀️✨";
+      cheerMsg.innerText = "SH의 페이스에 맞추어 YJ도 홧팅! 🏋️‍♀️✨";
     }
   } else {
     cheerMsg.innerText = "매일 작은 변화가 아름다운 습관을 만듭니다! 💕";
