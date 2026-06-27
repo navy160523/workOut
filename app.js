@@ -1,5 +1,5 @@
 // Modern ES Module imports for Firebase Web SDK
-import { firebaseConfig } from './firebase-config.js?v=3';
+import { firebaseConfig } from './firebase-config.js?v=4';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
 import { getFirestore, doc, getDoc, setDoc, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
@@ -109,6 +109,11 @@ async function fetchMonthData(year, month) {
 }
 
 async function saveDayData(dateStr, meDone, girlfriendDone) {
+  if (!dateStr || typeof dateStr !== 'string' || dateStr.trim() === '') {
+    console.warn("saveDayData: Invalid date string passed. Skipping Firestore write.");
+    return;
+  }
+
   const logData = {
     date: dateStr,
     me: meDone,
