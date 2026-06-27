@@ -26,6 +26,74 @@
   --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Light Theme Variables */
+body.light-theme {
+  --bg-primary: #f8fafc;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  
+  --primary-glow: rgba(99, 102, 241, 0.06);
+  --secondary-glow: rgba(236, 72, 153, 0.06);
+  
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(15, 23, 42, 0.08);
+  --glass-highlight: rgba(15, 23, 42, 0.12);
+}
+
+body.light-theme .bg-decor-1 {
+  opacity: 0.1;
+}
+
+body.light-theme .bg-decor-2 {
+  opacity: 0.08;
+}
+
+body.light-theme .key-btn:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+body.light-theme .switch-slider {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .modal-overlay {
+  background: rgba(15, 23, 42, 0.4);
+}
+
+/* Floating Theme Button */
+.theme-toggle-floating {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 200;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  font-size: 16px;
+  transition: all var(--transition-fast);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+body.light-theme .theme-toggle-floating {
+  background: rgba(15, 23, 42, 0.05);
+}
+
+.theme-toggle-floating:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--glass-highlight);
+}
+
+body.light-theme .theme-toggle-floating:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
 /* Reset & Base styles */
 * {
   box-sizing: border-box;
@@ -45,6 +113,7 @@ body {
   overflow-x: hidden;
   position: relative;
   padding: 16px;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
 }
 
 /* Background Gradients */

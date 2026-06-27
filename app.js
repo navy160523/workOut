@@ -465,5 +465,28 @@ function showLoading(show) {
   }
 }
 
+// Theme Toggle Logic
+function setupThemeToggle() {
+  const btnTheme = document.getElementById('btn-theme');
+  const themeIcon = btnTheme.querySelector('i');
+
+  // Check saved theme from localStorage
+  if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light-theme');
+    themeIcon.className = 'fa-solid fa-sun';
+  } else {
+    document.body.classList.remove('light-theme');
+    themeIcon.className = 'fa-solid fa-moon';
+  }
+
+  btnTheme.addEventListener('click', () => {
+    document.body.classList.toggle('light-theme');
+    const isLight = document.body.classList.contains('light-theme');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    themeIcon.className = isLight ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+  });
+}
+
 // Immediate Setup (Avoid depending on DOMContentLoaded which might have already fired)
 setupPasswordGate();
+setupThemeToggle();
