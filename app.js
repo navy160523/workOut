@@ -1,19 +1,17 @@
 // Modern ES Module imports for Firebase Web SDK
 import { firebaseConfig } from './firebase-config.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+import { getFirestore, doc, getDoc, setDoc, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
 // Define Firebase module variables
 let db = null;
 let isFirebaseActive = false;
 
-// 1. Initialize Firebase/Mock DB Check
-const isConfigured = firebaseConfig && firebaseConfig.apiKey && firebaseConfig.apiKey !== "YOUR_API_KEY";
+// Initialize Firebase/Mock DB Check
+const isConfigured = firebaseConfig && firebaseConfig.apiKey && firebaseConfig.apiKey !== "YOUR_API_KEY" && firebaseConfig.apiKey !== "";
 
 if (isConfigured) {
   try {
-    // Dynamic import for Firebase scripts when config is present
-    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js');
-    const { getFirestore, doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, onSnapshot } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js');
-    
     const app = initializeApp(firebaseConfig);
     db = getFirestore(app);
     isFirebaseActive = true;
@@ -22,7 +20,7 @@ if (isConfigured) {
     console.error("Firebase initialization failed, falling back to LocalStorage:", error);
   }
 } else {
-  console.warn("Firebase config not provided. Running in LocalStorage fallback mode.");
+  console.warn("Firebase config not provided or using template. Running in LocalStorage fallback mode.");
 }
 
 // Helper: Get YYYY-MM-DD formatted date string in local timezone
@@ -33,7 +31,7 @@ function getLocalDateString(date) {
   return `${year}-${month}-${day}`;
 }
 
-// 2. Data Access Layer (Dynamic Firestore / LocalStorage)
+// Data Access Layer (Dynamic Firestore / LocalStorage)
 async function fetchMonthData(year, month) {
   const startDay = `${year}-${String(month + 1).padStart(2, '0')}-01`;
   const endDay = `${year}-${String(month + 1).padStart(2, '0')}-31`; // Simple range check
@@ -91,7 +89,7 @@ async function saveDayData(dateStr, meDone, girlfriendDone) {
   localStorage.setItem(`workout_${dateStr}`, JSON.stringify(logData));
 }
 
-// 3. State Variables
+// State Variables
 let currentYear = new Date().getFullYear();
 let currentMonth = new Date().getMonth(); // 0-11
 let monthlyLogs = {}; // Key: "YYYY-MM-DD", Value: { me: bool, girlfriend: bool }
@@ -125,7 +123,7 @@ const loadingOverlay = document.getElementById('loading-overlay');
 
 let activeModalDateStr = "";
 
-// 4. Password Check logic
+// Password Check logic
 function setupPasswordGate() {
   // Check session / persistence
   if (localStorage.getItem('isUserAuth') === 'true') {
@@ -213,7 +211,7 @@ function enterApp() {
   initCalendar();
 }
 
-// 5. Calendar Logic
+// Calendar Logic
 async function initCalendar() {
   updateTodayCheckinWidget();
   await loadAndRenderMonth();
@@ -379,7 +377,7 @@ async function toggleTodayWorkout(person) {
   await saveDayData(todayStr, log.me, log.girlfriend);
 }
 
-// 6. Modal Functions
+// Modal Functions
 function openDayModal(dateStr, dayLog) {
   activeModalDateStr = dateStr;
   
@@ -421,7 +419,7 @@ async function saveModalChanges() {
   showLoading(false);
 }
 
-// 7. Stats calculation
+// Stats calculation
 function updateStats() {
   let meCount = 0;
   let girlfriendCount = 0;
@@ -467,7 +465,5 @@ function showLoading(show) {
   }
 }
 
-// Initialize Application
-document.addEventListener('DOMContentLoaded', () => {
-  setupPasswordGate();
-});
+// Immediate Setup (Avoid depending on DOMContentLoaded which might have already fired)
+setupPasswordGate();
