@@ -404,10 +404,7 @@ async function saveModalChanges() {
   const meDone = modalChkMe.checked;
   const girlfriendDone = modalChkGirlfriend.checked;
 
-  showLoading(true);
-  await saveDayData(activeModalDateStr, meDone, girlfriendDone);
-  
-  // Refresh monthly logs locally
+  // 1. Update local state & redraw calendar instantly (No loading screen!)
   monthlyLogs[activeModalDateStr] = {
     date: activeModalDateStr,
     me: meDone,
@@ -417,7 +414,13 @@ async function saveModalChanges() {
   renderCalendar();
   updateStats();
   closeModal();
-  showLoading(false);
+
+  // 2. Write to storage asynchronously in the background
+  try {
+    await saveDayData(activeModalDateStr, meDone, girlfriendDone);
+  } catch (error) {
+    console.error("Failed to save data in background:", error);
+  }
 }
 
 // Stats calculation
