@@ -446,12 +446,13 @@ function closeModal() {
 async function saveModalChanges() {
   if (!activeModalDateStr) return;
 
+  const targetDateStr = activeModalDateStr; // Capture date before closeModal clears it
   const meDone = modalChkMe.checked;
   const girlfriendDone = modalChkGirlfriend.checked;
 
   // 1. Update local state & redraw calendar instantly (No loading screen!)
-  monthlyLogs[activeModalDateStr] = {
-    date: activeModalDateStr,
+  monthlyLogs[targetDateStr] = {
+    date: targetDateStr,
     me: meDone,
     girlfriend: girlfriendDone
   };
@@ -462,7 +463,7 @@ async function saveModalChanges() {
 
   // 2. Write to storage asynchronously in the background
   try {
-    await saveDayData(activeModalDateStr, meDone, girlfriendDone);
+    await saveDayData(targetDateStr, meDone, girlfriendDone);
   } catch (error) {
     console.error("Failed to save data in background:", error);
   }
