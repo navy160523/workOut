@@ -7,6 +7,44 @@ import { getFirestore, doc, getDoc, setDoc, collection, query, where, getDocs } 
 let db = null;
 let isFirebaseActive = false;
 
+// Toast Notification System for Debugging Firestore
+function showToast(message, isError = true) {
+  let toast = document.getElementById('error-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'error-toast';
+    toast.style.position = 'fixed';
+    toast.style.bottom = '24px';
+    toast.style.left = '50%';
+    toast.style.transform = 'translateX(-50%)';
+    toast.style.padding = '14px 28px';
+    toast.style.borderRadius = '16px';
+    toast.style.zIndex = '10000';
+    toast.style.fontSize = '13px';
+    toast.style.fontWeight = '600';
+    toast.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+    toast.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
+    toast.style.backdropFilter = 'blur(10px)';
+    toast.style.webkitBackdropFilter = 'blur(10px)';
+    toast.style.textAlign = 'center';
+    toast.style.maxWidth = '90%';
+    toast.style.lineHeight = '1.4';
+    document.body.appendChild(toast);
+  }
+  
+  toast.style.backgroundColor = isError ? 'rgba(239, 68, 68, 0.9)' : 'rgba(16, 185, 129, 0.9)';
+  toast.style.color = '#ffffff';
+  toast.style.border = isError ? '1px solid rgba(239, 68, 68, 0.2)' : '1px solid rgba(16, 185, 129, 0.2)';
+  toast.innerText = message;
+  toast.style.opacity = '1';
+  toast.style.transform = 'translateX(-50%) translateY(0)';
+  
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(-50%) translateY(15px)';
+  }, 4000);
+}
+
 // Initialize Firebase/Mock DB Check
 const isConfigured = firebaseConfig && firebaseConfig.apiKey && firebaseConfig.apiKey !== "YOUR_API_KEY" && firebaseConfig.apiKey !== "";
 
@@ -18,6 +56,7 @@ if (isConfigured) {
     console.log("Firebase Firestore initialized successfully!");
   } catch (error) {
     console.error("Firebase initialization failed, falling back to LocalStorage:", error);
+    showToast("Firebase 초기화 실패: " + error.message);
   }
 } else {
   console.warn("Firebase config not provided or using template. Running in LocalStorage fallback mode.");
@@ -51,6 +90,7 @@ async function fetchMonthData(year, month) {
       return data;
     } catch (e) {
       console.error("Error fetching Firestore data, fallback to localStorage:", e);
+      showToast("Firebase 불러오기 오류: " + e.code + " / " + e.message);
     }
   }
   
@@ -84,6 +124,7 @@ async function saveDayData(dateStr, meDone, girlfriendDone) {
       console.log("Data saved to Firestore successfully!");
     } catch (e) {
       console.error("Error writing Firestore document, falling back to LocalStorage:", e);
+      showToast("Firebase 저장 오류: " + e.code + "\n(" + e.message + ")");
     }
   }
   
