@@ -207,6 +207,7 @@ styleSheet.innerText = `
 document.head.appendChild(styleSheet);
 
 function enterApp() {
+  passwordGate.classList.add('hidden');
   appContainer.classList.remove('hidden');
   initCalendar();
 }
