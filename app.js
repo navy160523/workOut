@@ -471,13 +471,13 @@ function setupThemeToggle() {
   const btnTheme = document.getElementById('btn-theme');
   const themeIcon = btnTheme.querySelector('i');
 
-  // Check saved theme from localStorage
-  if (localStorage.getItem('theme') === 'light') {
-    document.body.classList.add('light-theme');
-    themeIcon.className = 'fa-solid fa-sun';
-  } else {
+  // Check saved theme from localStorage (Default is light)
+  if (localStorage.getItem('theme') === 'dark') {
     document.body.classList.remove('light-theme');
     themeIcon.className = 'fa-solid fa-moon';
+  } else {
+    document.body.classList.add('light-theme');
+    themeIcon.className = 'fa-solid fa-sun';
   }
 
   btnTheme.addEventListener('click', () => {
